@@ -90,6 +90,7 @@ function Get-SuspiciousOAuthGrants {
                     Write-Output $userGrant;
 
                     if($Output) {
+                        $userGrant.AppReplyUrls = [string]::join(";",$userGrant.AppReplyUrls);
                         $userGrant | Export-CSV -notypeinformation -append $OutputPath;
                     }
                 }
@@ -111,6 +112,7 @@ function Get-SuspiciousOAuthGrants {
                     $user = Get-AzureADUser -ObjectId $grant.PrincipalId;
 
                     $userGrant = New-Object PSObject;
+                    $userGrant | Add-Member Noteproperty 'ObjectID' $grant.objectId;
                     $userGrant | Add-Member Noteproperty 'User' $user.UserPrincipalName;
                     $userGrant | Add-Member Noteproperty 'AppDisplayName' $spn.DisplayName;
                     $userGrant | Add-Member Noteproperty 'AppPublisherName' $spn.PublisherName;
@@ -121,6 +123,7 @@ function Get-SuspiciousOAuthGrants {
                     Write-Output $userGrant;
 
                     if($Output) {
+                        $userGrant.AppReplyUrls = [string]::join(";",$userGrant.AppReplyUrls);
                         $userGrant | Export-CSV -notypeinformation -append $OutputPath;
                     }
                 }
